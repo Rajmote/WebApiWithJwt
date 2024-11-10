@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using WebApiJwtPOC.Helpers;
 using WebApiJwtPOC.Model;
 using WebApiJwtPOC.Services;
 
@@ -6,26 +8,27 @@ namespace WebApiJwtPOC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OurHeroController : Controller
+    [Authorize]
+    public class OurHeroController : ControllerBase
     {
         private readonly IOurHeroService _heroService;
-
         public OurHeroController(IOurHeroService heroService)
         {
             _heroService = heroService;
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] bool? isActive = null)
+        public async Task<IActionResult> Get([FromQuery] bool? isActive = null)
         {
-            return Ok(_heroService.GetAllHeros(isActive));
+            var heros = await _heroService.GetAllHeros(isActive);
+            return Ok(heros);
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{id}")]
+        //[Route("{id}")] // /api/OurHero/:id
+        public async Task<IActionResult> Get(int id)
         {
-            var hero = _heroService.GetHerosByID(id);
+            var hero = await _heroService.GetHerosByID(id);
             if (hero == null)
             {
                 return NotFound();
@@ -34,9 +37,9 @@ namespace WebApiJwtPOC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(AddUpdateOurHero heroObject)
+        public async Task<IActionResult> Post([FromBody] AddUpdateOurHero heroObject)
         {
-            var hero = _heroService.AddOurHero(heroObject);
+            var hero = await _heroService.AddOurHero(heroObject);
 
             if (hero == null)
             {
@@ -52,9 +55,9 @@ namespace WebApiJwtPOC.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Put([FromRoute] int id, [FromBody] AddUpdateOurHero heroObject)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AddUpdateOurHero heroObject)
         {
-            var hero = _heroService.UpdateOurHero(id, heroObject);
+            var hero = await _heroService.UpdateOurHero(id, heroObject);
             if (hero == null)
             {
                 return NotFound();
@@ -69,9 +72,9 @@ namespace WebApiJwtPOC.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            if (!_heroService.DeleteHerosByID(id))
+            if (!await _heroService.DeleteHerosByID(id))
             {
                 return NotFound();
             }

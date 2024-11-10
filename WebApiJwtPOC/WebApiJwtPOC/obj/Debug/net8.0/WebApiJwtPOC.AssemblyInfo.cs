@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApiJwtPOC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ffd8f4918fc810a99ba8ccaf4067c664fd4f9a5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e37e0ef2cfe70e4b35f5bc95bd827bb9a9c9e392")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApiJwtPOC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApiJwtPOC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
